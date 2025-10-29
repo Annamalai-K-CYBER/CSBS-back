@@ -1,5 +1,3 @@
-// server.js — Full backend with per-user work status, per-work counts stored in Mongo,
-// and a global totals document auto-updated. ~360+ lines (including comments).
 
 const express = require("express");
 const dotenv = require("dotenv");
@@ -17,19 +15,13 @@ app.use(express.json());
 app.use(cors());
 
 // ---------------------------
-// Environment variables required:
-// - MONGODB_URI
-// - JWT_SECRET (optional, fallback used)
-// - IMAGEKIT_PUBLIC_KEY
-// - IMAGEKIT_PRIVATE_KEY
-// - IMAGEKIT_URL_ENDPOINT
-// ---------------------------
-
-// ---------------------------
-// MongoDB connection
+// MongoDB connection (Render-safe)
 // ---------------------------
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB error:", err));
 
@@ -43,7 +35,7 @@ const imagekit = new ImageKit({
 });
 
 // ---------------------------
-// Multer - temporary storage for uploads
+// Multer setup
 // ---------------------------
 const upload = multer({ dest: "uploads/" });
 
@@ -503,4 +495,8 @@ app.post("/api/work/recompute-totals", async (req, res) => {
 // Start server
 // ---------------------------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+// ✅ Important for Render: use 0.0.0.0 instead of localhost
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
