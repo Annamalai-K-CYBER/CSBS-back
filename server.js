@@ -189,8 +189,16 @@ function isValidState(s) {
 // Routes
 // ---------------------------
 
+// ---------------------------
+// Landing / Health Check Route
+// ---------------------------
 app.get("/", (req, res) => {
-  res.send("🚀 CSBS Backend (ImageKit + MongoDB) Running...");
+  res.status(200).json({
+    success: true,
+    message: "🚀 CSBS Backend is running successfully!",
+    environment: process.env.NODE_ENV || "development",
+    time: new Date().toISOString(),
+  });
 });
 
 /* -----------------------------
@@ -493,7 +501,4 @@ app.post("/api/work/recompute-totals", async (req, res) => {
 
 // ---------------------------
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+module.exports = app;
