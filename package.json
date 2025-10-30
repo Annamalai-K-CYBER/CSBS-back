@@ -1,15 +1,15 @@
 {
   "name": "b",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Express backend deployed on Vercel",
+  "main": "server.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.8.0",
