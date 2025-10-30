@@ -501,4 +501,13 @@ app.post("/api/work/recompute-totals", async (req, res) => {
 
 // ---------------------------
 // Start server
-module.exports = app;
+if (require.main === module) {
+  // Local only
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Server running locally on port ${PORT}`);
+  });
+} else {
+  // For Vercel
+  module.exports = app;
+}
